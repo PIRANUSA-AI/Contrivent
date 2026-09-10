@@ -1,0 +1,16 @@
+# Contrivent
+
+> AI systems that run your busywork. Contrivent finds what matters in a business (Scout), builds AI systems around it (Forge), and operates them in production (Orchestrate). One team, from first signal to running system.
+
+Site: https://contrivent.com
+Contact: hello@contrivent.com
+
+## How the work runs
+
+- Scout - Discovery. Map every source a business already runs on, read documents, data, and conversations, and surface only the signals worth building around.
+- Forge - Build. Turn each signal into a design with one clear job: architecture, data pipelines, agents and models, assembled into one system and evaluated against real work.
+- Orchestrate - Operate. Deploy inside the tools the team already uses. Agents pass work to each other and to people, watch their own results, and improve weekly.
+
+## Pages
+
+- Home (single-page site, the whole story is here): https://contrivent.com/

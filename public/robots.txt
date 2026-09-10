@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Frame sequences are decorative scroll footage, not content to index.
+Disallow: /frames/
+
+Sitemap: https://contrivent.com/sitemap.xml

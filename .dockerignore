@@ -1,0 +1,16 @@
+# Everything the build regenerates or never reads. Keeping these out of the
+# Docker context is what makes an image rebuild fast on a small VPS.
+# Note: src/assets stays - Hero.tsx imports hero-loop.mp4 from there.
+# hero.mp4 is the un-looped source and is never imported, so it can go.
+node_modules
+dist
+.git
+.gitignore
+videos
+src/assets/hero.mp4
+*.log
+.DS_Store
+.dockerignore
+Dockerfile
+deploy/
+README.md

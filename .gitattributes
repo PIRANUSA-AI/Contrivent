@@ -1,0 +1,12 @@
+# Source is LF-normalised; media must never be diffed or line-endings touched.
+* text=auto eol=lf
+
+*.mp4 binary
+*.mp3 binary
+*.webm binary
+*.webp binary
+*.png binary
+*.jpg binary
+*.ico binary
+*.woff binary
+*.woff2 binary
