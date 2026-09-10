@@ -1,7 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
+import { getSequence } from '../lib/frames';
+import { storySegments } from '../content';
+
+/** The act the visitor hits first after the hero; the loader waits for it. */
+const FIRST_ACT = storySegments[0].name;
+/** Coarse-to-fine loading: this share of frames covers stride 24+8, enough to scrub smoothly. */
+const ACT_READY_AT = 0.3;
 
 const MIN_DURATION = 1400;
-/** Proceed once the hero video can play, even if it hasn't fully buffered. */
+/** Proceed once the hero can play and the first act is well on its way. */
 const GIVE_UP_AFTER = 6000;
 /** Never keep visitors on the loader longer than this. */
 const HARD_LIMIT = 12000;
@@ -19,6 +26,24 @@ export default function Preloader({ onDone }: { onDone: () => void }) {
       return 0;
     };
 
+    // Start downloading the opening act's frames now, from t=0 - the story
+    // canvas reuses the same cached load instead of waiting until it scrolls
+    // into view. Without this the first scroll outruns the network and stutters.
+    let actReady = 0;
+    let unsubscribe: (() => void) | undefined;
+    let cancelled = false;
+    getSequence(FIRST_ACT).then((sequence) => {
+      if (cancelled) return;
+      if (!sequence) {
+        actReady = 1; // no frames on purpose (placeholder world): nothing to wait for
+        return;
+      }
+      const needed = Math.max(1, Math.ceil(sequence.meta.frames * ACT_READY_AT));
+      unsubscribe = sequence.subscribe((loaded) => {
+        actReady = Math.min(1, loaded / needed);
+      });
+    });
+
     let shown = 0;
     let raf = 0;
     const start = performance.now();
@@ -26,7 +51,8 @@ export default function Preloader({ onDone }: { onDone: () => void }) {
     const tick = (now: number) => {
       const elapsed = now - start;
       const canPlay = !!video && video.readyState >= 2;
-      const available = elapsed > HARD_LIMIT || (elapsed > GIVE_UP_AFTER && canPlay) ? 1 : buffered();
+      const media = Math.min(buffered(), actReady);
+      const available = elapsed > HARD_LIMIT || (elapsed > GIVE_UP_AFTER && canPlay && actReady > 0.5) ? 1 : media;
       const goal = Math.min(available, elapsed / MIN_DURATION);
       shown += (goal - shown) * 0.1;
       if (goal >= 1 && shown > 0.995) shown = 1;
@@ -43,11 +69,17 @@ export default function Preloader({ onDone }: { onDone: () => void }) {
     };
     raf = requestAnimationFrame(tick);
 
-    return () => cancelAnimationFrame(raf);
+    return () => {
+      cancelled = true;
+      unsubscribe?.();
+      cancelAnimationFrame(raf);
+    };
   }, [onDone]);
 
   useEffect(() => {
     if (phase !== 'leaving') return;
+    // Page is opening: warm the rest of the story in the background during the intro.
+    for (const segment of storySegments.slice(1)) void getSequence(segment.name);
     const timer = setTimeout(() => setPhase('gone'), 1300);
     return () => clearTimeout(timer);
   }, [phase]);
@@ -61,7 +93,7 @@ export default function Preloader({ onDone }: { onDone: () => void }) {
         <span>Systems boot</span>
       </div>
       <div className="preloader__corner preloader__corner--tr">
-        <span>Loading hero footage</span>
+        <span>Loading hero &amp; first act</span>
       </div>
       <div className="preloader__center">
         <span className="preloader__count" ref={countRef}>

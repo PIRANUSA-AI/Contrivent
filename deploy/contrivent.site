@@ -1,0 +1,39 @@
+# contrivent.com - static landing page (Vite build in ./dist)
+# Managed by hand for now; mirrors the caching policy of deploy/nginx.conf.
+
+server {
+    listen 80;
+    listen [::]:80;
+    server_name contrivent.com www.contrivent.com;
+
+    root /var/www/contrivent/dist;
+    index index.html;
+
+    # Real clients sit behind Cloudflare; keep the old direct-IP visitors working too.
+
+    gzip on;
+    gzip_vary on;
+    gzip_comp_level 6;
+    gzip_min_length 1024;
+    gzip_types text/css application/javascript application/json image/svg+xml text/plain;
+
+    # Vite-hashed build output: immutable for a year.
+    location /assets/ {
+        add_header Cache-Control "public, max-age=31536000, immutable";
+        try_files $uri =404;
+    }
+
+    # Scroll frames: stable filenames, 30 days. After re-rendering a clip with
+    # new content, rename the folder in storySegments (src/content.ts) to bust.
+    location /frames/ {
+        add_header Cache-Control "public, max-age=2592000";
+        try_files $uri =404;
+    }
+
+    location / {
+        add_header Cache-Control "no-cache";
+        try_files $uri $uri/ /index.html;
+    }
+
+    location ~ /\. { deny all; }
+}
