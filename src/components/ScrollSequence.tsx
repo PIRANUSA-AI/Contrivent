@@ -11,6 +11,8 @@ type Props = {
   /** Scroll distance (vh) over which one clip dissolves into the next. */
   crossfade?: number;
   className?: string;
+  /** Share (0-1) of each named clip skipped by its anchor, so nav links land where the act's content is on screen. */
+  anchorPad?: number;
   /** Overlay drawn above every frame. Receives `--p` (0-1 over the whole story) etc., see bindScrollProgress. */
   children?: ReactNode;
 };
@@ -20,7 +22,14 @@ type Layer = { name: string; local: number; alpha: number };
 const clamp01 = (n: number) => Math.min(1, Math.max(0, n));
 
 /** Pins a full-screen canvas and scrubs a chain of image sequences with scroll, crossfading between clips. */
-export default function ScrollSequence({ id, segments, crossfade = 0, className = '', children }: Props) {
+export default function ScrollSequence({
+  id,
+  segments,
+  crossfade = 0,
+  className = '',
+  anchorPad = 0,
+  children,
+}: Props) {
   const sectionRef = useRef<HTMLElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const total = totalLength(segments);
@@ -176,7 +185,10 @@ export default function ScrollSequence({ id, segments, crossfade = 0, className 
             key={range.id}
             id={range.id}
             className="seq__anchor"
-            style={{ top: `${range.offset}vh`, height: `${range.length}vh` }}
+            style={{
+              top: `${range.offset + range.length * anchorPad}vh`,
+              height: `${range.length * (1 - anchorPad)}vh`,
+            }}
             aria-hidden="true"
           />
         ))}

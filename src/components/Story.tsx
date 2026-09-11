@@ -14,7 +14,7 @@ const rangeOf = (name: string) => ranges.find((range) => range.name === name)!;
  */
 export default function Story() {
   return (
-    <ScrollSequence segments={storySegments} crossfade={storyCrossfade} className="story">
+    <ScrollSequence segments={storySegments} crossfade={storyCrossfade} anchorPad={0.06} className="story">
       <Scout range={rangeOf('scout')} />
       <Transition range={rangeOf('transition-1')} />
       <Forge range={rangeOf('forge')} />
