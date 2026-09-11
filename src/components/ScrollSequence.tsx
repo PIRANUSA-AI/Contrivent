@@ -46,7 +46,9 @@ export default function ScrollSequence({ id, segments, crossfade = 0, className 
 
     /** Which clip frames make up the picture at progress p (two layers while crossfading). */
     const layersAt = (p: number): Layer[] => {
-      const i = Math.max(0, clips.findIndex((clip) => p < clip.end));
+      // Past the last clip's end (p = 1) nothing matches, so hold the final frame of the last clip.
+      let i = clips.findIndex((clip) => p < clip.end);
+      if (i < 0) i = clips.length - 1;
       const clip = clips[i] ?? clips[clips.length - 1];
       const local = clamp01((p - clip.start) / (clip.end - clip.start));
       const half = fade / 2;

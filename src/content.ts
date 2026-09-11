@@ -147,3 +147,44 @@ export const triangle = {
 };
 
 export const contactEmail = 'hello@contrivent.com';
+
+/* ---------- Meet the team ---------- */
+
+/** The closing sequence after the story: transition-3 dissolves into the outro, both starting mid-clip. */
+export const teamSegments: Segment[] = [
+  { name: 'transition-3', length: 200 },
+  { name: 'outro', length: 320 },
+];
+
+export const teamCrossfade = 40;
+
+export const teamKicker = 'The people';
+export const teamTitle = 'Meet the team.';
+export const teamLead = 'Two builders behind the systems. We scout the signal, forge the machine, and stay on it until it runs on its own.';
+
+export type Member = {
+  name: string;
+  role: string;
+  bio: string;
+  /** Forward + reverse loop in src/assets, played as the card background. */
+  focus: string;
+  tags: string[];
+};
+
+export const teamMembers: Member[] = [
+  {
+    name: 'Deska',
+    role: 'Systems / Data',
+    bio: 'Turns messy sources into pipelines that hold up in production. If a number moves on this page, Deska wired it.',
+    focus: 'deska',
+    tags: ['Pipelines', 'Evaluation', 'Automation'],
+  },
+  {
+    name: 'Yoel',
+    role: 'Product / Agents',
+    bio: 'Finds the signal worth building around and shapes it into agents people actually trust. Writes the story the systems tell.',
+    focus: 'yoel',
+    tags: ['Discovery', 'Agents', 'Interface'],
+  },
+];
+

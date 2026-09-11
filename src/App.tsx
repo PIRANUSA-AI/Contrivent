@@ -11,6 +11,7 @@ import Story from './components/Story';
 import Triangle from './components/Triangle';
 import About from './components/About';
 import Contact from './components/Contact';
+import Team from './components/Team';
 import Footer from './components/Footer';
 import { gsap, prefersReducedMotion, ScrollTrigger, scrollToTarget, setScrollLocked, startSmoothScroll } from './lib/scroll';
 
@@ -75,7 +76,9 @@ export default function App() {
         <Triangle />
         <About />
         <Divider />
+        <Team />
         <Contact />
+        <Divider shadow />
       </main>
       <Footer />
       <div className="grain" aria-hidden="true" />

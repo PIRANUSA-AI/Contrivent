@@ -1863,6 +1863,136 @@ body::-webkit-scrollbar {
 }
 
 /* ==========================================================================
+   Meet the team - looping background film + member cards, then the outro sequence
+   ========================================================================== */
+.team-intro {
+  position: relative;
+  background: var(--bg);
+  padding: clamp(120px, 16vh, 200px) var(--gutter) clamp(96px, 13vw, 180px);
+}
+
+.team-intro__inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1180px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.team-intro__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.6rem, 7vw, 6rem);
+  line-height: 1;
+  letter-spacing: -0.035em;
+  color: #fff;
+}
+
+.team-intro__lead {
+  max-width: 620px;
+  margin: 22px auto 0;
+  font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+
+.team-intro__cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: clamp(20px, 3vw, 40px);
+  margin-top: clamp(48px, 7vw, 88px);
+  text-align: left;
+}
+
+/* Member card */
+.member {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: linear-gradient(160deg, rgba(16, 26, 50, 0.72), rgba(6, 9, 18, 0.6));
+  border: 1px solid var(--line);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.member__media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--bg-raised);
+}
+
+.member__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.member__scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(6, 9, 18, 0.85) 0%, transparent 55%);
+}
+
+.member__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 22px 24px 26px;
+}
+
+.member__role {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0 0 10px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--cyan);
+}
+
+.member__name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.7rem, 3vw, 2.4rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+
+.member__bio {
+  margin: 12px 0 0;
+  font-size: 0.98rem;
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+
+.member__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 20px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.member__tags li {
+  padding: 5px 11px;
+  border: 1px solid var(--line-strong);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+/* ==========================================================================
    Responsive
    ========================================================================== */
 @media (max-width: 1100px) {
@@ -2029,6 +2159,15 @@ body::-webkit-scrollbar {
 
   .footer__cols {
     flex-wrap: wrap;
+  }
+
+  .team-intro {
+    padding-top: 120px;
+  }
+
+  .team-intro__cards {
+    grid-template-columns: 1fr;
+    gap: 22px;
   }
 }
 

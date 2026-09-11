@@ -1,5 +1,7 @@
 {
   "transition-1": { "reverse": true },
   "transition-2": { "reverse": true },
-  "orchestrate": { "start": "middle" }
+  "orchestrate": { "start": "middle" },
+  "transition-3": { "start": "middle" },
+  "outro": { "start": "middle" }
 }
