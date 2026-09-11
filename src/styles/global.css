@@ -697,7 +697,7 @@ em {
    ========================================================================== */
 /* Zero-height marker in the flow; the band hangs over the seam between the two sections. */
 .divider {
-  --band: clamp(110px, 24vw, 380px);
+  --band: clamp(64px, 12vw, 230px);
   position: relative;
   z-index: 10;
   height: 0;
@@ -735,18 +735,14 @@ em {
 .divider__image {
   position: absolute;
   inset: 0;
-  background-repeat: no-repeat;
-  background-size: max(100%, 720px) auto;
+  /* Seamless panel mirrored against itself and tiled sideways: a repeating
+     chevron of armour scales. The artwork's edges are edge-blended, so the
+     mirror join and the tile join are both invisible. */
+  background-size: auto 100%;
+  background-repeat: repeat-x;
+  background-position: center;
   -webkit-mask-image: linear-gradient(to bottom, transparent, #000 14%, #000 86%, transparent);
   mask-image: linear-gradient(to bottom, transparent, #000 14%, #000 86%, transparent);
-}
-
-.divider--top .divider__image {
-  background-position: center top;
-}
-
-.divider--bottom .divider__image {
-  background-position: center bottom;
 }
 
 /* ==========================================================================
@@ -1118,14 +1114,10 @@ body::-webkit-scrollbar {
   font-size: min(15rem, calc(128vw / var(--chars)));
   line-height: 1;
   letter-spacing: -0.035em;
-  background: var(--wordmark-gradient);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  /* Thin outline so the white top of the gradient survives bright video frames.
-     Deep blue (not black) keeps it in the gradient's family instead of reading
-     as a dark halo; em units keep the edge the same ratio at every title size. */
-  -webkit-text-stroke: 0.0125em rgba(21, 45, 90, 0.85);
+  /* Solid white on a black edge: reads on bright and dark footage alike,
+     and keeps the act titles out of the gradient-text look. */
+  color: #fff;
+  -webkit-text-stroke: 0.02em rgba(0, 0, 0, 0.9);
   paint-order: stroke fill;
 }
 

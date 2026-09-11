@@ -67,14 +67,14 @@ export default function App() {
       <Hud />
       <main>
         <Hero ready={ready} />
-        <Divider index={0} />
+        <Divider />
         <Manifesto />
-        <Divider index={1} />
+        <Divider />
         <Story />
-        <Divider index={2} />
+        <Divider />
         <Triangle />
         <About />
-        <Divider index={3} />
+        <Divider />
         <Contact />
       </main>
       <Footer />
